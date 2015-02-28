@@ -13,9 +13,10 @@ app.init = function(){
 };
 
 app.send = function(message){
+
   $.ajax({
     // always use this url
-    url: app.server + '/sendmessage',
+    url: app.server + '/classes/messages',
     type: 'POST',
     data: JSON.stringify(message),
     contentType: 'application/json',
@@ -32,7 +33,7 @@ app.send = function(message){
 app.fetch = function(){
   $.ajax({
     // always use this url
-    url: app.server+'/getmessages',
+    url: app.server + '/classes/messages',
     limit: 50,
     type: 'GET',
     data : {
@@ -40,7 +41,6 @@ app.fetch = function(){
       //where : "createdAt:{'$gte':lastDate}"
     },
     success: function (data) {
-      //console.log(data);
       app.update(data);
       console.log('chatterbox: Message received');
     },
@@ -65,13 +65,12 @@ app.addRoom = function(roomname){
 };
 
 app.update = function(data) {
-  console.log(data.results.length, dataSize);
-  if (data.results.length > 0){
-    for(var i = data.results.length - 1 ; i >= dataSize; i--){
-      var room = data.results[i].roomname;
-      var message = data.results[i].text;
-      var userName = data.results[i].username;
-      if (data.results.length > dataSize){
+  if (data.length > 0){
+    for(var i = data.length - 1 ; i >= dataSize; i--){
+      var room = data[i].Room;
+      var message = data[i].Message;
+      var userName = data[i].Username;
+      if (data.length > dataSize){
         if(room !== undefined && typeof room !== 'function'
         && message !== undefined && typeof message !== 'function'
         && userName !== undefined && typeof userName !== 'function') {
@@ -112,7 +111,7 @@ app.update = function(data) {
         }
       }
     }
-    dataSize = data.results.length;
+    dataSize = data.length;
     $("#chats").animate({ scrollTop: scrollPosition }, "slow");
     scrollPosition += 100;
     //$('#chats').empty();
@@ -134,7 +133,7 @@ $(document).ready(function(){
       }
       var message = {
         'username': name,
-        'text': text,
+        'message': text,
         'roomname': roomput
       };
       app.addMessage(message);
