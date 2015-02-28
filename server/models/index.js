@@ -8,7 +8,12 @@ module.exports = {
       res.send(query);
       res.end();
     }, // a function which produces all the messages
-    post: function () {} // a function which can be used to insert a message into the database
+    post: function (req, res) {
+      var queryString = 'INSERT INTO messages (Username, Message, Room)
+      VALUES (' + req.body.username + ',' + req.body.text + ',' + req.body.roomname + ')';
+
+      var query = app.connection.query();
+    } // a function which can be used to insert a message into the database
   },
 
   users: {
