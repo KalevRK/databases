@@ -30,4 +30,4 @@ if (!module.parent) {
   console.log("Listening on", app.get("port"));
 }
 
-module.exports.connection = db.dbConnection().connect();
+module.exports.connection = db.dbConnection();//.connect();

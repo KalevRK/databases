@@ -18,9 +18,11 @@ module.exports = {
   users: {
     // Ditto as above
     get: function (req, res) {
+      console.log('users get in controller');
       models.users.get(req, res);
     },
     post: function (req, res) {
+      console.log('users post in controller');
       models.users.post(req, res);
     }
   }
