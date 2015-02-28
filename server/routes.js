@@ -2,7 +2,6 @@ var controllers = require('./controllers');
 var router = require('express').Router();
 
 for (var route in controllers) {
-  console.log('route ' + route);
   // console.log('in routes.js, here are the route properties of controller object :', route)
   router.route("/" + route)
     .get(controllers[route].get)

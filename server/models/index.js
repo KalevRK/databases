@@ -9,11 +9,9 @@ module.exports = {
       res.send(query);
     }, // a function which produces all the messages
     post: function (req, res) {
-      console.log("we're in models messages POST method, and here's req.body ", req.body)
-      //TODO: Fix apostrophe handling in message for query
-      // var message = req.body.message.replace("'", "\'");
+      var message = req.body.message.replace("'", "\\'");
       var queryString = "INSERT INTO messages (Username, Message, Room) " +
-      "VALUES ('" + req.body.username + "','" + req.body.message + "','" + req.body.roomname + "')";
+      "VALUES ('" + req.body.username + "','" + message + "','" + req.body.roomname + "')";
 
       var query = app.connection.query(queryString);
       res.end("All done here");
@@ -27,10 +25,8 @@ module.exports = {
       res.send(query);
     },
     post: function (req, res) {
-      console.log("we're in models users POST method, and here's req.body ", req.body)
       var queryString = "INSERT INTO users (Username) " +
       "VALUES ('" + req.body.username + "')";
-      console.log('queryString in POST in users in models: ', queryString);
       var query = app.connection.query(queryString);
       res.end("All done here");
     }
