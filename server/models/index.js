@@ -8,8 +8,6 @@ module.exports = {
         if (err) {
           throw err;
         }
-
-        console.log("query results: ",results);
         res.send(results);
 
       });
