@@ -29,15 +29,22 @@ module.exports = {
 
   users: {
     get: function (req, res) {
-      console.log("we're in models users GET method, and here's req.body ", req.body)
-      var query = app.connection.query('SELECT * FROM users');
-      res.send(query);
+      app.connection.query('SELECT * FROM users', function(err, results) {
+        if (err) {
+          throw err;
+        }
+        res.send(results);
+      });
     },
     post: function (req, res) {
       var queryString = "INSERT INTO users (Username) " +
       "VALUES ('" + req.body.username + "')";
-      var query = app.connection.query(queryString);
-      res.end("All done here");
+      app.connection.query(queryString, function(err, results) {
+        if (err) {
+          throw err;
+        }
+        res.end("All done here");
+      });
     }
   }
 };
