@@ -4,17 +4,28 @@ var app = require('../app.js');
 module.exports = {
   messages: {
     get: function (req, res) {
-      console.log("we're in models messages GET method, and here's req.body ", req.body)
-      var query = app.connection.query('SELECT * FROM messages');
-      res.send(query);
+      app.connection.query("SELECT * FROM messages", function(err, results) {
+        if (err) {
+          throw err;
+        }
+
+        console.log("query results: ",results);
+        res.send(results);
+
+      });
+
     }, // a function which produces all the messages
     post: function (req, res) {
       var message = req.body.message.replace("'", "\\'");
       var queryString = "INSERT INTO messages (Username, Message, Room) " +
       "VALUES ('" + req.body.username + "','" + message + "','" + req.body.roomname + "')";
 
-      var query = app.connection.query(queryString);
-      res.end("All done here");
+      app.connection.query(queryString, function(err, results) {
+        if (err) {
+          throw err;
+        }
+        res.end("All done here");
+      });
     } // a function which can be used to insert a message into the database
   },
 
